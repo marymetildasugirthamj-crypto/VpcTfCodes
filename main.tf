@@ -1,12 +1,18 @@
-# Create EC2 Instance
-resource "aws_instance" "my-ec2-vm" {
-  ami               = "ami-05d2d839d4f73aafb"  #Ubuntu
-  # ami               = "ami-0d2614eafc1b0e4d2"  #windows
-  instance_type     = "t2.micro"
-  #availability_zone = "ap-south-1b"
-  tags = {
-     "Name" = "web1"
-    #"tag1" = "Update-test-1"    
+data "aws_ami" "ubuntu" {
+  most_recent = true
+  owners      = ["099720109477"] # Canonical (Ubuntu)
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
   }
 }
 
+resource "aws_instance" "my-ec2-vm" {
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "web1"
+  }
+}
