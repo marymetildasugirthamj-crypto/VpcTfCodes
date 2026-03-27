@@ -13,6 +13,6 @@ resource "aws_instance" "my-ec2-vm" {
   instance_type = "t2.micro"
 
   tags = {
-    Name = "web1"
+    Name = "new instance"
   }
 }
